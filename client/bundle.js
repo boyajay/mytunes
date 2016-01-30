@@ -72,7 +72,7 @@
 	  // set up model objects
 	  var library = new _Songs2.default(_data2.default);
 	  var app = new _AppModel2.default({ library: library });
-
+	  console.log(_data2.default);
 	  // build a view for the top level of the whole app
 	  var appView = new _AppView2.default({ model: app });
 
@@ -13598,7 +13598,6 @@
 	    // to preserve event handlers on child nodes, we must call .detach() on them before overwriting with .html()
 	    // see http://api.jquery.com/detach/
 	    this.$el.children().detach();
-
 	    this.$el.html('<th>Library</th>').append(this.collection.map(function (song) {
 	      return new _LibraryEntryView2.default({ model: song }).render();
 	    }));
@@ -13657,7 +13656,7 @@
 	  value: true
 	});
 	// data.js - Defines an array of data regarding song files and their accompanying details.
-	var songData = exports.songData = [{
+	var SONGDATA = [{
 	  url: "https://s3-us-west-1.amazonaws.com/hr-mytunes/data/04+One+In+A+Million.mp3",
 	  title: "One In A Million",
 	  artist: "Aaliyah"
@@ -13674,6 +13673,8 @@
 	  title: "If Your Girl Only Knew",
 	  artist: "Aaliyah"
 	}];
+
+	exports.default = SONGDATA;
 
 /***/ }
 /******/ ]);
