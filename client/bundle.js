@@ -13718,6 +13718,10 @@
 
 	var _underscore2 = _interopRequireDefault(_underscore);
 
+	var _DeQueueButtonView = __webpack_require__(15);
+
+	var _DeQueueButtonView2 = _interopRequireDefault(_DeQueueButtonView);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
@@ -13736,7 +13740,9 @@
 	  },
 
 	  render: function render() {
-	    return this.$el.html(this.template(this.model.attributes));
+	    this.$el.html(this.template(this.model.attributes));
+	    this.$el.append(new _DeQueueButtonView2.default({ model: this.model }).render());
+	    return this.$el;
 	  }
 	});
 
@@ -13771,6 +13777,47 @@
 	}];
 
 	exports.default = SONGDATA;
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _backbone = __webpack_require__(3);
+
+	var Backbone = _interopRequireWildcard(_backbone);
+
+	var _underscore = __webpack_require__(4);
+
+	var _underscore2 = _interopRequireDefault(_underscore);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	var DeQueueButtonView = Backbone.View.extend({
+	  initialize: function initialize() {
+	    this.render();
+	  },
+
+	  tagName: 'span',
+
+	  template: _underscore2.default.template(' x '),
+
+	  events: {
+	    'click': function click() {
+	      this.model.deQueue();
+	    }
+	  },
+
+	  render: function render() {
+	    console.log("render button");
+	    return this.$el.html(this.template());
+	  }
+	});
+
+	module.exports = DeQueueButtonView;
 
 /***/ }
 /******/ ]);

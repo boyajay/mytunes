@@ -1,5 +1,6 @@
 import * as Backbone from 'backbone';
 import _ from 'underscore';
+import DeQueueButtonView from './DeQueueButtonView';
 
 // SongQueueEntryView.js - Defines a backbone view class for the song queue entries.
 var SongQueueEntryView = Backbone.View.extend({
@@ -15,7 +16,9 @@ var SongQueueEntryView = Backbone.View.extend({
   },
 
   render() {
-    return this.$el.html(this.template(this.model.attributes));
+     this.$el.html(this.template(this.model.attributes));
+     this.$el.append(new DeQueueButtonView({model: this.model}).render());
+     return this.$el;
   }
 
 });
