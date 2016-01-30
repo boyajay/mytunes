@@ -13501,12 +13501,20 @@
 	      if (_this.length === 1) _this.first().play();
 	    });
 	    this.on('ended', function () {
-	      _this.remove(_this.at(0));if (_this.first()) {
+	      _this.remove(_this.at(0));
+	      if (_this.first()) {
 	        _this.first().play();
 	      }
 	    });
 	    this.on('dequeue', function (song) {
-	      _this.remove(song);
+	      // TODO?
+	      // if song is only song when we remove it,
+	      // tell audio element to stop playing
+	      if (song === _this.first()) {
+	        song.trigger('ended');
+	      } else {
+	        _this.remove(song);
+	      }
 	    });
 	  }
 	});
