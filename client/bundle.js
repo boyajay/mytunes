@@ -58,7 +58,7 @@
 
 	var _AppView2 = _interopRequireDefault(_AppView);
 
-	var _data = __webpack_require__(12);
+	var _data = __webpack_require__(14);
 
 	var _data2 = _interopRequireDefault(_data);
 
@@ -128,6 +128,10 @@
 
 	  enqueue: function enqueue() {
 	    this.trigger('enqueue', this);
+	  },
+
+	  songEnd: function songEnd() {
+	    this.model.trigger('ended', this);
 	  }
 
 	});
@@ -13465,12 +13469,15 @@
 	    getting called from the window (unless we override it, as we do here). */
 	    params.library.on('enqueue', function (song) {
 	      _this.get('songQueue').add(song);
-	      console.log(_this.get('songQueue'));
 	    }, this);
 
 	    this.get('songQueue').on('play', function (song) {
 	      this.set('currentSong', song);
 	    }, this);
+
+	    this.get('songQueue').on('ended', function () {
+	      _this.get('songQueue').remove(_this.get('songQueue').at(0));
+	    });
 	  }
 
 	});
@@ -13523,7 +13530,7 @@
 
 	var _LibraryView2 = _interopRequireDefault(_LibraryView);
 
-	var _SongQueueView = __webpack_require__(14);
+	var _SongQueueView = __webpack_require__(12);
 
 	var _SongQueueView2 = _interopRequireDefault(_SongQueueView);
 
@@ -13580,6 +13587,7 @@
 	  },
 
 	  render: function render() {
+	    this.el.addEventListener('ended', this.model.songEnd.bind(this));
 	    return this.$el.attr('src', this.model ? this.model.get('url') : '');
 	  }
 
@@ -13668,37 +13676,6 @@
 
 /***/ },
 /* 12 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	// data.js - Defines an array of data regarding song files and their accompanying details.
-	var SONGDATA = [{
-	  url: "https://s3-us-west-1.amazonaws.com/hr-mytunes/data/04+One+In+A+Million.mp3",
-	  title: "One In A Million",
-	  artist: "Aaliyah"
-	}, {
-	  url: "https://s3-us-west-1.amazonaws.com/hr-mytunes/data/03+Age+Ain%27t+Nothing+But+A+Number.mp3",
-	  title: "Age Ain't Nothing But A Number",
-	  artist: "Aaliyah"
-	}, {
-	  url: "https://s3-us-west-1.amazonaws.com/hr-mytunes/data/05+Hot+Like+Fire.mp3",
-	  title: "Hot Like Fire",
-	  artist: "Aaliyah"
-	}, {
-	  url: "https://s3-us-west-1.amazonaws.com/hr-mytunes/data/06+If+Your+Girl+Only+Knew.mp3",
-	  title: "If Your Girl Only Knew",
-	  artist: "Aaliyah"
-	}];
-
-	exports.default = SONGDATA;
-
-/***/ },
-/* 13 */,
-/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13707,7 +13684,7 @@
 
 	var Backbone = _interopRequireWildcard(_backbone);
 
-	var _SongQueueEntryView = __webpack_require__(15);
+	var _SongQueueEntryView = __webpack_require__(13);
 
 	var _SongQueueEntryView2 = _interopRequireDefault(_SongQueueEntryView);
 
@@ -13723,6 +13700,7 @@
 	  initialize: function initialize() {
 	    this.render();
 	    this.collection.on('add', this.render, this);
+	    this.collection.on('remove', this.render, this);
 	  },
 
 	  render: function render() {
@@ -13737,7 +13715,7 @@
 	module.exports = SongQueueView;
 
 /***/ },
-/* 15 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13774,6 +13752,36 @@
 	});
 
 	module.exports = SongQueueEntryView;
+
+/***/ },
+/* 14 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	// data.js - Defines an array of data regarding song files and their accompanying details.
+	var SONGDATA = [{
+	  url: "https://s3-us-west-1.amazonaws.com/hr-mytunes/data/04+One+In+A+Million.mp3",
+	  title: "One In A Million",
+	  artist: "Aaliyah"
+	}, {
+	  url: "https://s3-us-west-1.amazonaws.com/hr-mytunes/data/03+Age+Ain%27t+Nothing+But+A+Number.mp3",
+	  title: "Age Ain't Nothing But A Number",
+	  artist: "Aaliyah"
+	}, {
+	  url: "https://s3-us-west-1.amazonaws.com/hr-mytunes/data/05+Hot+Like+Fire.mp3",
+	  title: "Hot Like Fire",
+	  artist: "Aaliyah"
+	}, {
+	  url: "https://s3-us-west-1.amazonaws.com/hr-mytunes/data/06+If+Your+Girl+Only+Knew.mp3",
+	  title: "If Your Girl Only Knew",
+	  artist: "Aaliyah"
+	}];
+
+	exports.default = SONGDATA;
 
 /***/ }
 /******/ ]);
