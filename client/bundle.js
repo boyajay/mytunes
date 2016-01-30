@@ -127,7 +127,7 @@
 	  enqueue: function enqueue() {
 	    this.trigger('enqueue', this);
 	  },
-	  dequeue: function dequeue() {
+	  deQueue: function deQueue() {
 	    this.trigger('dequeue', this);
 	  },
 	  songEnd: function songEnd() {
@@ -13505,8 +13505,8 @@
 	        _this.first().play();
 	      }
 	    });
-	    this.on('dequeue', function () {
-	      console.log('placeholder');
+	    this.on('dequeue', function (song) {
+	      _this.remove(song);
 	    });
 	  }
 	});
@@ -13741,7 +13741,7 @@
 
 	  render: function render() {
 	    this.$el.html(this.template(this.model.attributes));
-	    this.$el.append(new _DeQueueButtonView2.default({ model: this.model }).render());
+	    this.$el.prepend(new _DeQueueButtonView2.default({ model: this.model }).render());
 	    return this.$el;
 	  }
 	});
@@ -13803,7 +13803,7 @@
 
 	  tagName: 'span',
 
-	  template: _underscore2.default.template(' x '),
+	  template: _underscore2.default.template(' X '),
 
 	  events: {
 	    'click': function click() {
@@ -13812,7 +13812,6 @@
 	  },
 
 	  render: function render() {
-	    console.log("render button");
 	    return this.$el.html(this.template());
 	  }
 	});

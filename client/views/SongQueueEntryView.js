@@ -17,7 +17,7 @@ var SongQueueEntryView = Backbone.View.extend({
 
   render() {
      this.$el.html(this.template(this.model.attributes));
-     this.$el.append(new DeQueueButtonView({model: this.model}).render());
+     this.$el.prepend(new DeQueueButtonView({model: this.model}).render());
      return this.$el;
   }
 

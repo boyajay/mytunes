@@ -8,7 +8,7 @@ var DeQueueButtonView = Backbone.View.extend({
   
   tagName: 'span',
 
-  template: _.template(' x '),
+  template: _.template(' X '),
 
   events: {
     'click': function() {
@@ -17,7 +17,6 @@ var DeQueueButtonView = Backbone.View.extend({
   },
 
   render() {
-    console.log("render button");
     return this.$el.html(this.template());
   }
 
