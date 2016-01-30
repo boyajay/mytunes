@@ -124,6 +124,10 @@
 	  play: function play() {
 	    // Triggering an event here will also trigger the event on the collection
 	    this.trigger('play', this);
+	  },
+
+	  enqueue: function enqueue() {
+	    this.trigger('enqueue', this);
 	  }
 
 	});
@@ -13448,6 +13452,8 @@
 	var AppModel = Backbone.Model.extend({
 
 	  initialize: function initialize(params) {
+	    var _this = this;
+
 	    this.set('currentSong', new _SongModel2.default());
 	    this.set('songQueue', new _SongQueue2.default());
 
@@ -13457,9 +13463,9 @@
 	    the 'this' we use that's actually in the function (this.set('currentSong', song)) would
 	    end up referring to the window. That's just what happens with all JS events. The handlers end up
 	    getting called from the window (unless we override it, as we do here). */
-
-	    params.library.on('play', function (song) {
-	      this.set('currentSong', song);
+	    params.library.on('enqueue', function (song) {
+	      _this.get('songQueue').add(song);
+	      console.log(_this.get('songQueue'));
 	    }, this);
 	  }
 
@@ -13481,8 +13487,10 @@
 
 	// SongQueue.js - Defines a backbone model class for the song queue.
 	var SongQueue = _Songs2.default.extend({
-
-	  initialize: function initialize() {}
+	  // model: songModel -- inherited from Songs
+	  initialize: function initialize() {
+	    // this.on('enqueue', this.set(this, this.get(this).concat(this), this )
+	  }
 
 	});
 
@@ -13521,7 +13529,6 @@
 	    this.playerView = new _PlayerView2.default({ model: this.model.get('currentSong') });
 	    this.libraryView = new _LibraryView2.default({ collection: this.model.get('library') });
 	    this.songQueueView = new _SongQueueView2.default({ collection: this.model.get('songQueue') });
-	    console.log(this.songQueueView);
 	    // change:currentSong - this is Backbone's way of allowing you to filter events to
 	    // ONLY receive change events for the specific property, 'currentSong'
 	    this.model.on('change:currentSong', function (model) {
@@ -13638,7 +13645,7 @@
 
 	  events: {
 	    'click': function click() {
-	      this.model.play();
+	      this.model.enqueue();
 	    }
 	  },
 
@@ -13706,10 +13713,10 @@
 
 	  initialize: function initialize() {
 	    this.render();
+	    this.collection.on('change:songQueue', this.render, this);
 	  },
 
 	  render: function render() {
-	    console.log("rendering");
 	    this.$el.children().detach();
 	    this.$el.html('<th>Queue</th>').append(this.collection.map(function (song) {
 	      return new _SongQueueEntryView2.default({ model: song }).render();
@@ -13730,11 +13737,31 @@
 
 	var Backbone = _interopRequireWildcard(_backbone);
 
+	var _underscore = __webpack_require__(4);
+
+	var _underscore2 = _interopRequireDefault(_underscore);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	// SongQueueEntryView.js - Defines a backbone view class for the song queue entries.
 	var SongQueueEntryView = Backbone.View.extend({
-	  // your code here!
+
+	  tagName: 'tr',
+
+	  template: _underscore2.default.template('<td>(<%= artist %>)</td><td><%= title %></td>'),
+
+	  events: {
+	    'click': function click() {
+	      this.model.play();
+	    }
+	  },
+
+	  render: function render() {
+	    return this.$el.html(this.template(this.model.attributes));
+	  }
+
 	});
 
 	module.exports = SongQueueEntryView;

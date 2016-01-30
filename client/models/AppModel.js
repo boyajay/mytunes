@@ -1,5 +1,6 @@
 import SongModel from './SongModel';
 import SongQueue from '../collections/SongQueue';
+import Song from './SongModel';
 import * as Backbone from 'backbone';
 
 // App.js - Defines a backbone model class for the whole app.
@@ -15,10 +16,9 @@ var AppModel = Backbone.Model.extend({
     the 'this' we use that's actually in the function (this.set('currentSong', song)) would
     end up referring to the window. That's just what happens with all JS events. The handlers end up
     getting called from the window (unless we override it, as we do here). */
-
-
-    params.library.on('play', function(song) {
-      this.set('currentSong', song);
+    params.library.on('enqueue', (song) => {
+      this.get( 'songQueue' ).add( song );
+      console.log(this.get('songQueue'));
     }, this);
   }
 
