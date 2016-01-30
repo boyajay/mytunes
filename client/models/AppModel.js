@@ -6,7 +6,7 @@ import * as Backbone from 'backbone';
 // App.js - Defines a backbone model class for the whole app.
 var AppModel = Backbone.Model.extend({
 
-  initialize: function(params) {
+  initialize(params) {
     this.set('currentSong', new SongModel());
     this.set('songQueue', new SongQueue());
 
@@ -24,9 +24,6 @@ var AppModel = Backbone.Model.extend({
       this.set('currentSong', song);
     }, this);
 
-    this.get('songQueue').on('ended', 
-      ()=>{ this.get('songQueue').remove(this.get('songQueue').at(0)); } 
-    );
   }
 
 });

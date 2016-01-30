@@ -120,20 +120,19 @@
 
 	// SongModel.js - Defines a backbone model class for songs.
 	var SongModel = Backbone.Model.extend({
-
 	  play: function play() {
 	    // Triggering an event here will also trigger the event on the collection
 	    this.trigger('play', this);
 	  },
-
 	  enqueue: function enqueue() {
 	    this.trigger('enqueue', this);
 	  },
-
+	  dequeue: function dequeue() {
+	    this.trigger('dequeue', this);
+	  },
 	  songEnd: function songEnd() {
 	    this.model.trigger('ended', this);
 	  }
-
 	});
 
 	module.exports = SongModel;
@@ -13454,7 +13453,6 @@
 
 	// App.js - Defines a backbone model class for the whole app.
 	var AppModel = Backbone.Model.extend({
-
 	  initialize: function initialize(params) {
 	    var _this = this;
 
@@ -13474,12 +13472,7 @@
 	    this.get('songQueue').on('play', function (song) {
 	      this.set('currentSong', song);
 	    }, this);
-
-	    this.get('songQueue').on('ended', function () {
-	      _this.get('songQueue').remove(_this.get('songQueue').at(0));
-	    });
 	  }
-
 	});
 
 	module.exports = AppModel;
@@ -13499,6 +13492,7 @@
 	// SongQueue.js - Defines a backbone model class for the song queue.
 	var SongQueue = _Songs2.default.extend({
 	  // model: songModel -- inherited from Songs
+
 	  initialize: function initialize() {
 	    var _this = this;
 
@@ -13506,8 +13500,15 @@
 	    this.on('add', function () {
 	      if (_this.length === 1) _this.first().play();
 	    });
+	    this.on('ended', function () {
+	      _this.remove(_this.at(0));if (_this.first()) {
+	        _this.first().play();
+	      }
+	    });
+	    this.on('dequeue', function () {
+	      console.log('placeholder');
+	    });
 	  }
-
 	});
 
 	module.exports = SongQueue;
@@ -13540,7 +13541,6 @@
 
 	// AppView.js - Defines a backbone view class for the whole music app.
 	var AppView = Backbone.View.extend({
-
 	  initialize: function initialize(params) {
 	    this.playerView = new _PlayerView2.default({ model: this.model.get('currentSong') });
 	    this.libraryView = new _LibraryView2.default({ collection: this.model.get('library') });
@@ -13551,11 +13551,9 @@
 	      this.playerView.setSong(model.get('currentSong'));
 	    }, this);
 	  },
-
 	  render: function render() {
 	    return this.$el.html([this.playerView.$el, this.libraryView.$el, this.songQueueView.$el]);
 	  }
-
 	});
 
 	module.exports = AppView;
@@ -13580,17 +13578,14 @@
 	  el: '<audio controls autoplay />',
 
 	  initialize: function initialize() {},
-
 	  setSong: function setSong(song) {
 	    this.model = song;
 	    this.render();
 	  },
-
 	  render: function render() {
 	    this.el.addEventListener('ended', this.model.songEnd.bind(this));
 	    return this.$el.attr('src', this.model ? this.model.get('url') : '');
 	  }
-
 	});
 
 	module.exports = PlayerView;
@@ -13621,7 +13616,6 @@
 	  initialize: function initialize() {
 	    this.render();
 	  },
-
 	  render: function render() {
 	    // to preserve event handlers on child nodes, we must call .detach() on them before overwriting with .html()
 	    // see http://api.jquery.com/detach/
@@ -13630,7 +13624,6 @@
 	      return new _LibraryEntryView2.default({ model: song }).render();
 	    }));
 	  }
-
 	});
 
 	module.exports = LibraryView;
@@ -13669,7 +13662,6 @@
 	  render: function render() {
 	    return this.$el.html(this.template(this.model.attributes));
 	  }
-
 	});
 
 	module.exports = LibraryEntryView;
@@ -13702,14 +13694,12 @@
 	    this.collection.on('add', this.render, this);
 	    this.collection.on('remove', this.render, this);
 	  },
-
 	  render: function render() {
 	    this.$el.children().detach();
 	    this.$el.html('<th>Queue</th>').append(this.collection.map(function (song) {
 	      return new _SongQueueEntryView2.default({ model: song }).render();
 	    }));
 	  }
-
 	});
 
 	module.exports = SongQueueView;
@@ -13748,7 +13738,6 @@
 	  render: function render() {
 	    return this.$el.html(this.template(this.model.attributes));
 	  }
-
 	});
 
 	module.exports = SongQueueEntryView;
