@@ -72,7 +72,6 @@
 	  // set up model objects
 	  var library = new _Songs2.default(_data2.default);
 	  var app = new _AppModel2.default({ library: library });
-	  console.log(_data2.default);
 	  // build a view for the top level of the whole app
 	  var appView = new _AppView2.default({ model: app });
 
@@ -13507,6 +13506,10 @@
 
 	var _LibraryView2 = _interopRequireDefault(_LibraryView);
 
+	var _SongQueueView = __webpack_require__(14);
+
+	var _SongQueueView2 = _interopRequireDefault(_SongQueueView);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
@@ -13517,7 +13520,8 @@
 	  initialize: function initialize(params) {
 	    this.playerView = new _PlayerView2.default({ model: this.model.get('currentSong') });
 	    this.libraryView = new _LibraryView2.default({ collection: this.model.get('library') });
-
+	    this.songQueueView = new _SongQueueView2.default({ collection: this.model.get('songQueue') });
+	    console.log(this.songQueueView);
 	    // change:currentSong - this is Backbone's way of allowing you to filter events to
 	    // ONLY receive change events for the specific property, 'currentSong'
 	    this.model.on('change:currentSong', function (model) {
@@ -13526,7 +13530,7 @@
 	  },
 
 	  render: function render() {
-	    return this.$el.html([this.playerView.$el, this.libraryView.$el]);
+	    return this.$el.html([this.playerView.$el, this.libraryView.$el, this.songQueueView.$el]);
 	  }
 
 	});
@@ -13675,6 +13679,65 @@
 	}];
 
 	exports.default = SONGDATA;
+
+/***/ },
+/* 13 */,
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _backbone = __webpack_require__(3);
+
+	var Backbone = _interopRequireWildcard(_backbone);
+
+	var _SongQueueEntryView = __webpack_require__(15);
+
+	var _SongQueueEntryView2 = _interopRequireDefault(_SongQueueEntryView);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	// SongQueueView.js - Defines a backbone view class for the song queue.
+	var SongQueueView = Backbone.View.extend({
+
+	  tagName: "table",
+
+	  initialize: function initialize() {
+	    this.render();
+	  },
+
+	  render: function render() {
+	    console.log("rendering");
+	    this.$el.children().detach();
+	    this.$el.html('<th>Queue</th>').append(this.collection.map(function (song) {
+	      return new _SongQueueEntryView2.default({ model: song }).render();
+	    }));
+	  }
+
+	});
+
+	module.exports = SongQueueView;
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _backbone = __webpack_require__(3);
+
+	var Backbone = _interopRequireWildcard(_backbone);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	// SongQueueEntryView.js - Defines a backbone view class for the song queue entries.
+	var SongQueueEntryView = Backbone.View.extend({
+	  // your code here!
+	});
+
+	module.exports = SongQueueEntryView;
 
 /***/ }
 /******/ ]);

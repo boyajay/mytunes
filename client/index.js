@@ -9,7 +9,6 @@ $(function() {
   // set up model objects
   var library = new Songs(songData);
   var app = new AppModel({library: library});
-  console.log( songData );
   // build a view for the top level of the whole app
   var appView = new AppView({model: app});
 
