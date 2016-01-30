@@ -20,6 +20,10 @@ var AppModel = Backbone.Model.extend({
       this.get( 'songQueue' ).add( song );
       console.log(this.get('songQueue'));
     }, this);
+
+    this.get('songQueue').on('play', function(song) {
+      this.set('currentSong', song);
+    }, this);
   }
 
 });

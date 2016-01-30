@@ -13467,6 +13467,10 @@
 	      _this.get('songQueue').add(song);
 	      console.log(_this.get('songQueue'));
 	    }, this);
+
+	    this.get('songQueue').on('play', function (song) {
+	      this.set('currentSong', song);
+	    }, this);
 	  }
 
 	});
@@ -13489,7 +13493,12 @@
 	var SongQueue = _Songs2.default.extend({
 	  // model: songModel -- inherited from Songs
 	  initialize: function initialize() {
+	    var _this = this;
+
 	    // this.on('enqueue', this.set(this, this.get(this).concat(this), this )
+	    this.on('add', function () {
+	      if (_this.length === 1) _this.first().play();
+	    });
 	  }
 
 	});
