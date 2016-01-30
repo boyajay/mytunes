@@ -13713,7 +13713,7 @@
 
 	  initialize: function initialize() {
 	    this.render();
-	    this.collection.on('change:songQueue', this.render, this);
+	    this.collection.on('add', this.render, this);
 	  },
 
 	  render: function render() {
