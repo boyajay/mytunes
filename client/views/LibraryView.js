@@ -1,3 +1,6 @@
+import * as Backbone from 'backbone';
+import LibraryEntryView from './LibraryEntryView';
+
 // LibraryView.js - Defines a backbone view class for the music library.
 var LibraryView = Backbone.View.extend({
 
@@ -20,3 +23,5 @@ var LibraryView = Backbone.View.extend({
   }
 
 });
+
+module.exports = LibraryView;

@@ -1,3 +1,4 @@
+import * as Backbone from 'backbone';
 // SongModel.js - Defines a backbone model class for songs.
 var SongModel = Backbone.Model.extend({
 
@@ -7,3 +8,5 @@ var SongModel = Backbone.Model.extend({
   }
 
 });
+
+module.exports = SongModel;

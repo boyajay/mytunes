@@ -1,3 +1,7 @@
+import SongModel from './SongModel';
+import SongQueue from '../collections/SongQueue';
+import * as Backbone from 'backbone';
+
 // App.js - Defines a backbone model class for the whole app.
 var AppModel = Backbone.Model.extend({
 
@@ -19,3 +23,5 @@ var AppModel = Backbone.Model.extend({
   }
 
 });
+
+module.exports = AppModel;

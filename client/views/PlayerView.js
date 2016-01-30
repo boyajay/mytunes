@@ -1,3 +1,5 @@
+import * as Backbone from 'backbone';
+
 // PlayerView.js - Defines a backbone view class for the music player.
 var PlayerView = Backbone.View.extend({
 
@@ -18,3 +20,5 @@ var PlayerView = Backbone.View.extend({
   }
 
 });
+
+module.exports = PlayerView;

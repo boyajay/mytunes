@@ -1,3 +1,6 @@
+import * as Backbone from 'backbone';
+import PlayerView from './PlayerView';
+import LibraryView from './LibraryView';
 // AppView.js - Defines a backbone view class for the whole music app.
 var AppView = Backbone.View.extend({
 
@@ -20,3 +23,5 @@ var AppView = Backbone.View.extend({
   }
 
 });
+
+module.exports = AppView;
